@@ -1,0 +1,354 @@
+﻿@page "/entries/{entryId:int}"
+@using Model
+@using Services
+@using Utils
+@using PortfolioTrackerStatsSource
+@using PortfolioTrackerStatsSource.model
+@inject NavigationManager NavigationManager
+@inject IMatDialogService MatDialogService
+@inject IMatToaster Toaster
+@inject IPortfolioService PortfolioService
+@inject IPortfolioEntryService PortfolioEntryService
+@inject IMarketOrderService MarketOrderService
+@inject ICryptocurrencyResolver CryptocurrencyResolver
+@inject IPortfolioTrackerStatsSource PortfolioTrackerStatsSource
+@inject ISummaryService SummaryService
+
+<style>
+    .demo-mat-card {
+        margin-bottom: 2em;
+    }
+
+    .demo-mat-card-content {
+        padding: 1rem;
+    }
+
+    .clear-margin {
+        margin: 0px;
+    }
+    
+    .clear-margin-vertical {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }    
+    
+    .app-fab--absolute {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+    }
+        
+    .mat-paper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1em;
+    } 
+    
+</style>
+<div class="mat-layout-grid mat-layout-grid-align-center" style="background-color: #CAE4DB;">
+    <div class="mat-layout-grid-inner center">
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-2"></div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-8">
+            <MatH5><MatButton Outlined="true" Icon="keyboard_arrow_left" Style="margin-right: 1rem;background-color:white" OnClick='() => { NavigationManager.NavigateTo($"/portfolios/{_activePortfolio.Id}"); }'>Back</MatButton>Portfolio Entry</MatH5>
+            <MatCard class="demo-mat-card">
+                <MatCardContent>
+                    @if(_activePortfolioEntry != null)
+                    {
+                        <div class="demo-mat-card-content">
+                            <MatHeadline6 class="clear-margin">
+                                <MatChipSet Style="align-items: center">
+                                    @if (_portfolioCryptocurrencyEntry != null)
+                                    {
+                                        <MatH5 Class="clear-margin-vertical">@_portfolioCryptocurrencyEntry.Name</MatH5>
+                                    }
+                                    else
+                                    {
+                                        <MatProgressCircle Indeterminate="true"/>
+                                    }
+                                    <MatChip Style="vertical-align: center" Label="@(CurrencyUtils.GetCurrencyLabel(_activePortfolio.Currency))"/>
+                                    @if (_currentEntryAssetMarketEntry != null)
+                                    {
+                                        <MatH6 Class="clear-margin-vertical" Style="text-align: end;float: end;">1 @_activePortfolioEntry.Symbol.ToUpper() = @CurrencyUtils.Format(_currentEntryAssetMarketEntry.CurrentPrice, _activePortfolio.Currency)</MatH6>
+                                    }
+                                    else
+                                    {
+                                        <MatProgressCircle Indeterminate="true"></MatProgressCircle>
+                                    }
+                                </MatChipSet>
+                            </MatHeadline6>
+                        </div>
+
+                        <MatBody2 class="demo-mat-card-content clear-margin">
+                            @if (_entrySummary != null)
+                            {
+                                <div class="mat-layout-grid">
+                                    <div class="mat-layout-grid-inner" style="align-items: center">
+                                        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+                                            <LabelDecimalValue Value="@(CurrencyUtils.Format(_entrySummary.MarketValue, _activePortfolio.Currency))" Label="Market Value"></LabelDecimalValue>
+                                        </div>
+                                        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+                                            <LabelDecimalValue Value="@(DecimalUtils.FormatTrimZeros(_totalHoldings))" Label="Holdings"></LabelDecimalValue>
+                                        </div>
+                                        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4" style="text-align: end">
+                                            <LabelDecimalValue Positive="@(_entrySummary.AbsoluteChange >= 0)" ValueColorBasedOnValue="true" Value="@(CurrencyUtils.FormatWithPlusSign(_entrySummary.AbsoluteChange, _activePortfolio.Currency))" Label="Profit/Loss"></LabelDecimalValue>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mat-layout-grid">
+                                    <div class="mat-layout-grid-inner" style="align-items: center">
+                                        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+                                            <LabelDecimalValue Value="@(CurrencyUtils.Format(_entrySummary.Cost, _activePortfolio.Currency))" Label="Net Cost"></LabelDecimalValue>
+                                        </div>
+                                        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+                                            <LabelDecimalValue Value="@(CurrencyUtils.Format(_totalHoldings > 0 ? (_entrySummary.Cost / _totalHoldings) : 0, _activePortfolio.Currency))" Label="Avg Net Cost"></LabelDecimalValue>
+                                        </div>
+                                        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4" style="text-align: end">
+                                            <LabelDecimalValue Positive="@(_entrySummary.RelativeChange >= 0)" ValueColorBasedOnValue="true" Value="@(DecimalUtils.FormatTwoDecimalPlacesWithPlusSign(_entrySummary.RelativeChange * 100) + "%")" Label="Percent Change"></LabelDecimalValue>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <MatProgressCircle Indeterminate="true"/>
+                            }
+
+                        </MatBody2>
+                    }
+                    else
+                    {
+                        <MatProgressBar Indeterminate="true"/>
+                    }
+                </MatCardContent>
+            </MatCard>
+            @if (_tableRowsItems == null)
+            {
+                <MatProgressBar Indeterminate="true"></MatProgressBar>
+            }
+            else if (_tableRowsItems.Count == 0)
+            {
+                <MatPaper Elevation="2"><span>No market orders were found.</span><div><MatButton Style="margin-top:1em;" Label="Create a new market order" OnClick='() => { NavigationManager.NavigateTo($"newmarketorder/{_activePortfolioEntry.Id}");}'></MatButton></div></MatPaper>
+            }
+            else
+            {
+                <MatTable Items="@_tableRowsItems" style="background-color: white;" Striped="true" AllowSelection="true" RowClass="tester" class="mat-elevation-z5" ShowPaging="false" PageSize="9999" SelectionChanged="SelectionChangedEvent">
+                    <MatTableHeader>
+                        <th>Date</th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Market Value</th>
+                        <th>Change</th>
+                        <th>Actions</th>
+                    </MatTableHeader>
+                    <MatTableRow>
+                        <td>
+                            <div style="min-width: 9rem">@(String.Format("{0:d.M.yyyy HH:mm:ss}", context.Item1.Date))</div>
+                        </td>
+                        <td>
+                            @if (@context.Item1.Buy)
+                            {
+                                <div style="min-width: 8rem">@context.Item1.Size @_activePortfolioEntry.Symbol.ToUpper()</div>
+                            }
+                            else
+                            {
+                                <div style="min-width: 8rem; color: #FF0000;">-@context.Item1.Size @_activePortfolioEntry.Symbol.ToUpper()</div>
+                            }
+                        </td>
+                        <td>
+                            <div style="min-width: 8rem">@(CurrencyUtils.Format(context.Item1.FilledPrice, _activePortfolio.Currency))</div>
+                        </td>
+                        <td>
+                            <div style="min-width: 9.2rem">@CurrencyUtils.Format(context.Item2.MarketValue, _activePortfolio.Currency)</div>
+                        </td>
+                        <td style='color: @(context.Item2.RelativeChange >= 0 ? "#17a104" : "#FF0000")'>
+                            <div style="min-width: 9rem">@CurrencyUtils.Format(context.Item2.AbsoluteChange, _activePortfolio.Currency) (@(DecimalUtils.FormatTwoDecimalPlaces(context.Item2.RelativeChange * 100))%)</div>
+                        </td>
+                        <td>
+                            <MatIconButton Icon="edit" OnClick="() => EditMarketOrder(context.Item1)"></MatIconButton>
+                            <MatIconButton Icon="delete" OnClick="() => DeletePortfolio(context.Item1)"></MatIconButton>
+                        </td>
+                    </MatTableRow>
+                </MatTable>
+            }
+        </div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-2"></div>
+    </div>
+</div>
+<MatFAB Class="app-fab--absolute" Icon="@MatIconNames.Add" Label="Add a new order" OnClick='() => { NavigationManager.NavigateTo($"newmarketorder/{_activePortfolioEntry.Id}");}'></MatFAB>
+
+<MatDialog @bind-IsOpen="@_orderDetailDialogIsOpen">
+    <MatDialogTitle>Market Order Detail</MatDialogTitle>
+    <MatDialogContent>
+        @if (_orderToBeShown != null)
+        {
+            <div class="mat-layout-grid">
+                <div class="mat-layout-grid-inner" style="align-items: center">
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                        <LabelDecimalValue Smaller="true" Value="@($"{_activePortfolioEntry.Symbol.ToUpper()}/{CurrencyUtils.GetCurrencyLabel(_activePortfolio.Currency)}")" Label="Trading Pair"></LabelDecimalValue>
+                    </div>
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6" style="text-align: right">
+                        <LabelDecimalValue Smaller="true" Value="@(CurrencyUtils.Format(_orderToBeShown.Item1.FilledPrice, _activePortfolio.Currency))" Label="Price"></LabelDecimalValue>
+                    </div>
+                </div>
+                <div class="mat-layout-grid-inner" style="align-items: center; margin-top: 2rem;">
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                        <LabelDecimalValue Smaller="true" Value="@(CurrencyUtils.Format(_orderToBeShown.Item1.Fee, _activePortfolio.Currency))" Label="Fee"></LabelDecimalValue>
+                    </div>
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6" style="text-align: right">
+                        <LabelDecimalValue Smaller="true" Value="@(CurrencyUtils.Format(_orderToBeShown.Item2.Cost, _activePortfolio.Currency))" Label="Cost (fees included)"></LabelDecimalValue>
+                    </div>
+                </div>
+                <div class="mat-layout-grid-inner" style="align-items: center;margin-top: 2rem; ">
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                        <LabelDecimalValue Smaller="true" ValueColorBasedOnValue="true" Positive="@(_orderToBeShown.Item2.RelativeChange >= 0)" Value="@(DecimalUtils.FormatTwoDecimalPlaces(_orderToBeShown.Item2.RelativeChange * 100) + "%")" Label="Change"></LabelDecimalValue>
+                    </div>
+                    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6" style="text-align: right">
+                        <LabelDecimalValue Smaller="true" Value="@(CurrencyUtils.Format(_orderToBeShown.Item1.Size * _currentEntryAssetMarketEntry.CurrentPrice, _activePortfolio.Currency))" Label="Current Value"></LabelDecimalValue>
+                    </div>
+                </div>
+            </div>
+        }
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@HideOrderDetail">Close</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+@code
+{
+    // ID of the entry whose detail should be displayed
+    [Parameter]
+    public int EntryId { get; set; }
+    
+    // portfolio the entry belongs to
+    private Portfolio _activePortfolio;
+    
+    // the entry to be displayed
+    private PortfolioEntry _activePortfolioEntry; 
+    
+    // market entry of the portfolio entry
+    private MarketEntry _currentEntryAssetMarketEntry; 
+    
+    // cryptocurrency of the portfolio entry
+    private Cryptocurrency _portfolioCryptocurrencyEntry;
+    
+    // summary of the entry
+    private ISummaryService.Summary _entrySummary;
+    
+    // total holdings of the active entry 
+    private decimal _totalHoldings;
+
+    // flag indicating whether order's detail is open
+    private bool _orderDetailDialogIsOpen;
+    
+    // order whose detail should be displayed 
+    private Tuple<MarketOrder, ISummaryService.Summary> _orderToBeShown;
+
+    // list of market orders mapped to summaries
+    private List<Tuple<MarketOrder, ISummaryService.Summary>> _tableRowsItems;
+
+    protected override void OnInitialized()
+    {
+        // get the portfolio entry
+        _activePortfolioEntry = PortfolioEntryService.GetPortfolioEntry(EntryId);
+        
+        if (_activePortfolioEntry == null)
+        {
+            NavigationManager.NavigateTo("/notfound");
+            return;
+        }
+        
+        // get the entry's portfolio
+        _activePortfolio = PortfolioService.GetPortfolio(_activePortfolioEntry.PortfolioId);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // resolve the name of the cryptocurrency (using the symbol)
+         _portfolioCryptocurrencyEntry = await CryptocurrencyResolver.Resolve(_activePortfolioEntry.Symbol);
+
+        await UpdateEntrySummary();
+    }
+
+    private void SetEntryLoading()
+    {
+        _currentEntryAssetMarketEntry = null;
+        _tableRowsItems = null;
+        _entrySummary = null;
+        StateHasChanged();
+    }
+
+    private async Task UpdateEntrySummary()
+    {
+        
+        // fetch the price of the entry's asset
+        _currentEntryAssetMarketEntry = (await PortfolioTrackerStatsSource.GetMarketEntries(
+            CurrencyUtils.GetCurrencyLabel(_activePortfolio.Currency).ToLower(),
+            _portfolioCryptocurrencyEntry.Id
+            ))[0];
+
+        // get all orders of the portfolio entry
+        var entryOrders = MarketOrderService.GetPortfolioEntryOrders(_activePortfolioEntry.Id);
+
+        // compute summaries of all orders in the entry
+        var entrySummaries = entryOrders.Select(order =>
+            SummaryService.GetMarketOrderSummary(order, _currentEntryAssetMarketEntry.CurrentPrice));
+
+        // compute the total holdings by adding all buy order sizes and subtracting sell order sizes
+        _totalHoldings = entryOrders.Sum(order => order.Size * (order.Buy ? 1 : -1));
+
+        // zip entry orders and summaries into a table rows
+        _tableRowsItems = entryOrders.Zip(entrySummaries)
+            .Select(tuple => new Tuple<MarketOrder, ISummaryService.Summary>(tuple.First, tuple.Second)).ToList();
+
+        // compute suummary of this entry
+        _entrySummary = SummaryService.GetPortfolioEntrySummary(entryOrders, _currentEntryAssetMarketEntry.CurrentPrice);
+    }
+
+    public void EditMarketOrder(MarketOrder order)
+    {
+        NavigationManager.NavigateTo($"/editmarketorder/{order.Id}");
+    }
+
+    async void DeletePortfolio(MarketOrder order)
+    {
+        // let the user  confirm that he really wants to delete an entry
+        var result = await MatDialogService.ConfirmAsync("Do you really wish to delete this market order?");
+        if (result)
+        {
+            // delete the order
+            MarketOrderService.DeleteMarketOrder(order);
+            SetEntryLoading();
+            // update the summary of the entry
+            await UpdateEntrySummary();
+            // refressh the UI
+            StateHasChanged();
+            Toaster.Add("Order successfully deleted", MatToastType.Success, "", "");
+        }
+    }
+
+    void ShowOrderDetail(Tuple<MarketOrder, ISummaryService.Summary> order)
+    {
+        _orderToBeShown = order;
+        _orderDetailDialogIsOpen = true;
+        StateHasChanged();
+    }
+
+    void HideOrderDetail()
+    {
+        _orderToBeShown = null;
+        _orderDetailDialogIsOpen = false;
+        StateHasChanged();
+    }
+
+    private void SelectionChangedEvent(object obj)
+    {
+        if (obj != null)
+        {   
+            // order has been clicked, show its detail
+            ShowOrderDetail((Tuple<MarketOrder, ISummaryService.Summary>) obj) ;
+        }
+    }
+}

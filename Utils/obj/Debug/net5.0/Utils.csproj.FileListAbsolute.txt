@@ -1,0 +1,15 @@
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\bin\Debug\net5.0\Utils.deps.json
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\bin\Debug\net5.0\Utils.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\bin\Debug\net5.0\ref\Utils.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\bin\Debug\net5.0\Utils.pdb
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\bin\Debug\net5.0\Model.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\bin\Debug\net5.0\Model.pdb
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\obj\Debug\net5.0\Utils.csproj.AssemblyReference.cache
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\obj\Debug\net5.0\Utils.GeneratedMSBuildEditorConfig.editorconfig
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\obj\Debug\net5.0\Utils.AssemblyInfoInputs.cache
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\obj\Debug\net5.0\Utils.AssemblyInfo.cs
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\obj\Debug\net5.0\Utils.csproj.CoreCompileInputs.cache
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\obj\Debug\net5.0\Utils.csproj.CopyComplete
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\obj\Debug\net5.0\Utils.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\obj\Debug\net5.0\ref\Utils.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Utils\obj\Debug\net5.0\Utils.pdb

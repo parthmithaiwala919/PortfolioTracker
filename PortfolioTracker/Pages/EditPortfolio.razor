@@ -1,0 +1,93 @@
+﻿@page "/editportfolio/{portfolioId:int}"
+@using Model
+@using Services
+@using Utils
+@inject IPortfolioService PortfolioService
+@inject IMatDialogService MatDialogService
+@inject IMatToaster Toaster
+@inject NavigationManager NavigationManager
+
+
+<style>
+    .demo-mat-card {
+        max-width: 400px;
+        margin-bottom: 2em;
+    }
+
+    .demo-mat-card-content {
+        padding: 1rem;
+    }
+
+    .clear-margin {
+        margin: 0px;
+    }
+</style>
+
+<div class="mat-layout-grid" style="background-color: #CAE4DB;">
+    <div class="mat-layout-grid-inner">
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-2"></div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-8">
+            <MatH5>
+                <MatButton Outlined="true" Icon="keyboard_arrow_left" Style="margin-right: 1rem;background-color:white" OnClick='() => { NavigationManager.NavigateTo($""); }'>Back</MatButton>
+            </MatH5>
+            <MatCard>
+                <MatCardContent class="demo-mat-card-content">
+                    <h2>Edit portfolio</h2>
+                    <PortfolioForm
+                        DefaultCurrency="@Currency.Usd"
+                        AvailableCurrencies="@(EnumUtils.GetEnumList<Currency>())"
+                        FormModel="_formFormModel"
+                        Edit="true"
+                        OnSubmitEventHandler="@OnCreateFormSubmitted">
+                    </PortfolioForm>
+                </MatCardContent>
+            </MatCard>
+        </div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-2"></div>
+    </div>
+</div>
+
+
+@code
+{
+    // ID of the portfolio to be edited
+    [Parameter]
+    public int PortfolioId { get; set; }
+
+    // model of the form
+    private readonly PortfolioForm.PortfolioFormModel _formFormModel = new(Currency.Usd);
+
+    // currently edited portfolio
+    private Portfolio _activePortfolio;
+
+    protected override void OnInitialized()
+    {
+        // find the portfolio
+        _activePortfolio = PortfolioService.GetPortfolio(PortfolioId);
+        
+        if (_activePortfolio == null)
+        {
+            NavigationManager.NavigateTo("/notfound");
+            return;
+        }
+        
+        // update the form model
+        _formFormModel.Name = _activePortfolio.Name;
+        _formFormModel.Description = _activePortfolio.Description;
+    }
+
+    private void OnCreateFormSubmitted(PortfolioForm.PortfolioFormModel formFormModel)
+    {
+        // update the portfolio
+        PortfolioService.UpdatePortfolio(_activePortfolio with {
+            Name = formFormModel.Name,
+            Description = formFormModel.Description
+            });
+        // reset the form 
+        formFormModel.Reset();
+        Toaster.Add("Portfolio successfully edited", MatToastType.Success, "", "");
+        
+        // navigate back to the portfolio detail
+        NavigationManager.NavigateTo($"/portfolios/{_activePortfolio.Id}");
+    }
+}

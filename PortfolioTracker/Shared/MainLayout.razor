@@ -1,0 +1,20 @@
+﻿@inherits LayoutComponentBase
+
+<MatAppBar Style="z-index: 100;" Class="mat">
+    <MatAppBarRow>
+        <MatAppBarSection style="justify-content: center">
+            <MatAppBarTitle style="font-size: 1.6em; letter-spacing: 0.06rem;">Crypto Portfolio Tracker</MatAppBarTitle>
+        </MatAppBarSection>
+    </MatAppBarRow>
+</MatAppBar>
+
+<MatDrawerContainer style="background-color: #CAE4DB;">
+
+    <MatDrawerContent>
+        <MatAppBarAdjust></MatAppBarAdjust>
+        <div class="body-content" style="background-color: white;">
+            @Body
+        </div>
+    </MatDrawerContent>
+
+</MatDrawerContainer>

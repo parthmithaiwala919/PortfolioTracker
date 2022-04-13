@@ -1,0 +1,176 @@
+﻿@page "/newportfolioentry/{portfolioId:int}"
+@using Model
+@using Services
+@using Utils
+@using System.ComponentModel.DataAnnotations
+@using PortfolioTrackerStatsSource
+@using PortfolioTrackerStatsSource.model
+@using Repository
+@inject IPortfolioService PortfolioService
+@inject IPortfolioEntryService PortfolioEntryService
+@inject IPortfolioTrackerStatsSource PortfolioTrackerStatsSource;
+@inject IMatDialogService MatDialogService
+@inject IMatToaster Toaster
+@inject NavigationManager NavigationManager
+
+<div class="mat-layout-grid" style="background-color: #CAE4DB;">
+    <div class="mat-layout-grid-inner">
+        <div class="mat-layout-grid-cell-span-2"></div>
+        <div class="mat-layout-grid-cell-span-8">
+            <MatH5><MatButton Outlined="true" Icon="keyboard_arrow_left" Style="margin-right: 1rem;background-color:white" OnClick='() => { NavigationManager.NavigateTo($"/portfolios/{_portfolio.Id}"); }'>Back to portfolio</MatButton>Manage entries of <b>@_portfolio.Name</b></MatH5>
+            <MatTextField Label="Filter by symbol" Style="margin-bottom: 2rem;background-color:white" Icon="filter_list" FullWidth="true" @bind-Value="@CryptocurrencyFilter"></MatTextField>
+            @if (_availableCryptocurrenciesWithUsage == null)
+            {
+                <MatProgressBar Indeterminate="true"></MatProgressBar>
+            }
+            else
+            {
+                @if (_availableCryptocurrenciesWithUsage.Count > 0)
+                {
+                    <MatTable Items="@_availableCryptocurrenciesWithUsage" Striped="true" RowClass="tester" PageSize="10"
+                              DebounceMilliseconds="150" class="mat-elevation-z5" style="background-color: white;">
+
+                        <MatTableHeader>
+                            <th>Symbol</th>
+                            <th>Name</th>
+                            <th></th>
+                        </MatTableHeader>
+                        <MatTableRow>
+                            <td>@context.Item1.Symbol</td>
+                            <td>
+                                <div style="min-width: 12em">@context.Item1.Name</div>
+                            </td>
+                            @if (context.Item2)
+                            {
+                                <td>
+                                    <MatIconButton Icon="add" Alignment OnClick="() => { OnAddCurrencyClicked(context.Item1); }" Style="float: right"></MatIconButton>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <MatIconButton Icon="delete" Alignment OnClick="() => { OnDeleteCurrencyClicked(context.Item1); }" Style="float: right"></MatIconButton>
+                                </td>
+                            }
+                        </MatTableRow>
+                    </MatTable>
+                }
+                else
+                {
+                    <MatH6>No cryptocurrencies match the symbol "@CryptocurrencyFilter"</MatH6>
+                }
+            }
+        </div>
+        <div class="mat-layout-grid-cell-span-2"></div>
+    </div>
+</div>
+
+
+@code
+{
+    public string CryptocurrencyFilter
+    {
+        get => _cryptocurrencyFilter;
+        set
+        {
+            _cryptocurrencyFilter = value;
+            // when setting the cryptocurrency symbol filter, do filter the list of available cryptos
+            FilterCurrenciesBySymbol(value);
+            this.StateHasChanged();
+        }
+    }
+
+    private void FilterCurrenciesBySymbol(string value)
+    {
+        // filter by symbol
+        _filteredCryptocurrencies = _availableCryptocurrencies.FindAll(c => c.Symbol.Contains(value));
+        UpdateAvailableCryptocurrencies(_filteredCryptocurrencies);
+    }
+
+    private string _cryptocurrencyFilter;
+
+    [Parameter]
+    public int PortfolioId { get; set; }
+
+    // the portfolio whose entries are being managed
+    private Portfolio _portfolio;
+    
+    // existing entries of the portfolio 
+    private List<PortfolioEntry> _portfolioEntries;
+
+    // list of available cryptocurrencies
+    private List<Cryptocurrency> _availableCryptocurrencies;
+    
+    // list of filtered cryptocurrencies
+    private List<Cryptocurrency> _filteredCryptocurrencies;
+    
+    // cryptocurrencies mapped to a flag indicating whether it is present in the portfolio or not
+    private List<Tuple<Cryptocurrency, bool>> _availableCryptocurrenciesWithUsage;
+
+    protected override void OnInitialized()
+    {
+        // load the portfolio using the specified ID
+        _portfolio = PortfolioService.GetPortfolio(PortfolioId);
+        
+        if (_portfolio == null)
+        {
+            NavigationManager.NavigateTo("/notfound");
+            return;
+        }
+        
+        // load all entries of the portfolio
+        _portfolioEntries = PortfolioEntryService.GetPortfolioEntries(PortfolioId);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // find all available cryptocurrencies
+        _availableCryptocurrencies = (await PortfolioTrackerStatsSource.GetAvailableCryptocurrencies())
+            // workaround till Coingecko removes binance-peg entries
+            .Where(c => !c.Id.Contains("binance-peg")).ToList();
+        _filteredCryptocurrencies = _availableCryptocurrencies;
+        UpdateAvailableCryptocurrencies(_availableCryptocurrencies);
+    }
+
+    private void UpdateAvailableCryptocurrencies(List<Cryptocurrency> availableCryptocurrencies)
+    {
+        var entriesSymbols = _portfolioEntries.Select(e => e.Symbol.ToLower());
+        // map available cryptocurrencies to a flag indicating whether they are used in the given portfolio
+        // order by the flag and then by symbol length
+        _availableCryptocurrenciesWithUsage = availableCryptocurrencies.Select(
+            c => new Tuple<Cryptocurrency, bool>(c, !entriesSymbols.Contains(c.Symbol.ToLower()))
+            ).OrderBy(c => c.Item2).ThenBy(c => c.Item1.Symbol.Length).ToList();
+    }
+
+    private void OnAddCurrencyClicked(Cryptocurrency cryptocurrency)
+    {
+        // create a new portfolio entry
+        var entry = PortfolioEntryService.CreatePortfolioEntry(cryptocurrency.Symbol, PortfolioId);
+        _portfolioEntries.Add(entry);
+        
+        // update the UI
+        UpdateAvailableCryptocurrencies(_filteredCryptocurrencies);
+        StateHasChanged();
+        
+        // notify the user
+        Toaster.Add($"{cryptocurrency.Symbol.ToUpper()} entry successfully added to {_portfolio.Name}.", MatToastType.Success, "", "");
+    }
+
+    private async void OnDeleteCurrencyClicked(Cryptocurrency cryptocurrency)
+    {
+        // let user confirm whether he wants to delete the entry
+        var result = await MatDialogService.ConfirmAsync($"Do you really wish to delete {cryptocurrency.Symbol.ToUpper()} entry including all of it's market entries?");
+        if (result)
+        {
+            // find the entry
+            var entry = _portfolioEntries.Find(entry => entry.Symbol == cryptocurrency.Symbol);
+            // delete the entry
+            PortfolioEntryService.DeletePortfolioEntry(entry);
+            _portfolioEntries.Remove(entry);
+            // update the UI
+            UpdateAvailableCryptocurrencies(_filteredCryptocurrencies);
+            StateHasChanged();
+            Toaster.Add($"{cryptocurrency.Symbol.ToUpper()} entry successfully deleted from {_portfolio.Name}.", MatToastType.Success, "", "");
+        }
+    }
+}

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\PortfolioTrackerStatsSource\PortfolioTrackerStatsSource.csproj" />
+      <ProjectReference Include="..\..\Model\Model.csproj" />
+      <ProjectReference Include="..\..\Repository\Repository.csproj" />
+    </ItemGroup>
+
+</Project>

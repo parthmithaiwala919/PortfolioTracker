@@ -1,0 +1,96 @@
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.deps.json
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.runtimeconfig.json
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.runtimeconfig.dev.json
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\testhost.exe
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\testhost.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Microsoft.TestPlatform.PlatformAbstractions.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.deps.json
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.runtimeconfig.json
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.runtimeconfig.dev.json
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Services.deps.json
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Services.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\ref\Services.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Services.pdb
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Database.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Model.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Utils.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.pdb
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Model.pdb
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.pdb
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Database.pdb
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Utils.pdb
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.csproj.AssemblyReference.cache
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.AssemblyInfoInputs.cache
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.AssemblyInfo.cs
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.csproj.CoreCompileInputs.cache
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.csproj.CopyComplete
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\ref\Services.dll
+D:\Ravi\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.pdb
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\testhost.exe
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\testhost.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Microsoft.TestPlatform.PlatformAbstractions.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.deps.json
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.runtimeconfig.json
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.runtimeconfig.dev.json
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.deps.json
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.runtimeconfig.json
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.runtimeconfig.dev.json
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Services.deps.json
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Services.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\ref\Services.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Services.pdb
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Database.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Model.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Utils.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\CryptoStatsSource.pdb
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Model.pdb
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Repository.pdb
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Database.pdb
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\bin\Debug\net5.0\Utils.pdb
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.csproj.AssemblyReference.cache
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.AssemblyInfoInputs.cache
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.AssemblyInfo.cs
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.csproj.CoreCompileInputs.cache
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.csproj.CopyComplete
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\ref\Services.dll
+D:\Ravi\New Changes\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\crypto-portfolio-tracker-master\Services\Services\obj\Debug\net5.0\Services.pdb
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\testhost.exe
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\testhost.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Microsoft.TestPlatform.PlatformAbstractions.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Repository.deps.json
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Repository.runtimeconfig.json
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Repository.runtimeconfig.dev.json
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\PortfolioTrackerStatsSource.deps.json
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\PortfolioTrackerStatsSource.runtimeconfig.json
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\PortfolioTrackerStatsSource.runtimeconfig.dev.json
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Services.deps.json
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Services.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\ref\Services.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Services.pdb
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Database.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Model.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\PortfolioTrackerStatsSource.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Repository.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Utils.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\PortfolioTrackerStatsSource.pdb
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Model.pdb
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Repository.pdb
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Database.pdb
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\bin\Debug\net5.0\Utils.pdb
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\obj\Debug\net5.0\Services.csproj.AssemblyReference.cache
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\obj\Debug\net5.0\Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\obj\Debug\net5.0\Services.AssemblyInfoInputs.cache
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\obj\Debug\net5.0\Services.AssemblyInfo.cs
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\obj\Debug\net5.0\Services.csproj.CoreCompileInputs.cache
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\obj\Debug\net5.0\Services.csproj.CopyComplete
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\obj\Debug\net5.0\Services.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\obj\Debug\net5.0\ref\Services.dll
+D:\Ravi\New Changes\PortfolioTracker\Services\Services\obj\Debug\net5.0\Services.pdb

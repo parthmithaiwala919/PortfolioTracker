@@ -1,0 +1,61 @@
+<style>
+    .no-margin {
+        margin:  0;
+    }
+  
+   .label {
+       color: #6f6f6f;
+
+      text-transform: uppercase;
+   } 
+   
+   .label-normal {
+       letter-spacing: 0.1rem;
+       font-size: 1.1em;
+   } 
+   
+  .label-small {
+          letter-spacing: 0.09rem;
+          font-size: 0.9em;
+   } 
+   
+   .value {
+        margin-top: 1rem; 
+        color: #000000;
+    }  
+    
+   .value-small {
+        margin-top: 0.3rem; 
+        color: #000000;
+    }  
+</style>
+
+@if (!Smaller)
+{
+    <span Class="no-margin label label-normal">@Label</span>
+    <MatH4 Class="no-margin value" style="@(ValueColorBasedOnValue ? !Positive ? "color:red" : "color: #17a104" : "")">@Value</MatH4>
+}
+else
+{
+    <span Class="no-margin label label-small">@Label</span>
+    <MatH6 Class="no-margin value-small" style="@(ValueColorBasedOnValue ? !Positive ? "color:red" : "color: #17a104" : "")">@Value</MatH6>
+}
+
+@code {
+
+    [Parameter]
+    public String Value { get; set; }
+
+    [Parameter]
+    public String Label { get; set; }
+
+    [Parameter]
+    public bool ValueColorBasedOnValue { get; set; } = false;
+
+    [Parameter]
+    public bool Positive { get; set; } = true;
+
+    [Parameter]
+    public bool Smaller { get; set; }
+
+}

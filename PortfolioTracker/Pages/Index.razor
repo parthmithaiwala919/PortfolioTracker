@@ -1,0 +1,158 @@
+﻿@page "/"
+@using Services
+@using Utils
+@using Model
+@inject NavigationManager NavigationManager
+@inject IPortfolioService PortfolioService
+@inject IPortfolioEntryService PortfolioEntryService
+@inject IMatDialogService MatDialogService
+@inject IMatToaster Toaster
+
+<style>
+    .demo-mat-card {
+        margin-bottom: 2em;
+    }
+
+    .demo-mat-card-content {
+        padding: 1rem;
+    }
+
+    .clear-margin {
+        margin: 0px;
+    }
+    
+    .app-fab--absolute {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    .mat-paper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1em;
+    } 
+</style>
+<div class="mat-layout-grid mat-layout-grid-align-center" style="background-color: #CAE4DB;">
+    <div class="mat-layout-grid-inner center">
+
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-2"></div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-8">
+            <MatH5>Portfolios</MatH5>
+            @if (_portfoliosWithEntries == null)
+            {
+                <MatProgressBar Indeterminate="true"></MatProgressBar>
+            }
+            else if (_portfoliosWithEntries.Count < 1)
+            {
+                <MatPaper Elevation="2">
+                    <span>No portfolios were found.</span>
+                    <div>
+                        <MatButton Style="margin-top:1em;" Label="Create a new portfolio" OnClick='() => { NavigationManager.NavigateTo($"newportfolio"); }'></MatButton>
+                    </div>
+                </MatPaper>
+            }
+            else
+            {
+                @foreach (var portfolioWithEntries in _portfoliosWithEntries)
+                {
+                    <MatCard class="demo-mat-card" OnCli>
+                        <MatCardContent>
+                            <div class="demo-mat-card-content">
+                                <div class="mat-layout-grid mat-layout-grid-align-center" style="padding:0px;">
+                                    <div class="mat-layout-grid-inner center">
+                                        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6">
+                                            <MatHeadline6 class="clear-margin">
+                                                <MatChipSet Style="align-items: center">
+                                                    <MatH5 Class="clear-margin">@portfolioWithEntries.Item1.Name</MatH5>
+                                                    <MatChip Style="vertical-align: center" Label="@CurrencyUtils.GetCurrencyLabel(portfolioWithEntries.Item1.Currency)"/>
+                                                </MatChipSet>
+                                            </MatHeadline6>
+                                        </div>
+                                        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-6" style="text-align: right;">
+                                            <MatIconButton Icon="edit" OnClick="() => EditPortfolio(portfolioWithEntries.Item1)"></MatIconButton>
+                                            <MatIconButton Icon="delete" OnClick="() => DeletePortfolio(portfolioWithEntries.Item1)"></MatIconButton>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding: 1rem">
+                                <MatButton Label="View" Style="margin-right: 1rem;" OnClick="() => ViewPortfolio(portfolioWithEntries.Item1)"></MatButton>
+                                @if (portfolioWithEntries.Item2.Count > 0)
+                                {
+                                    @foreach (var entry in portfolioWithEntries.Item2)
+                                    {
+                                        <MatButton Outlined="true" Style="margin-right: 1em;" Label="@entry.Symbol.ToUpper()" OnClick='() => NavigationManager.NavigateTo($"/entries/{entry.Id}")'></MatButton>
+                                    }
+                                }
+                                else
+                                {
+                                    <MatButton Icon="add" Outlined="true" OnClick="() => AddNewEntryToPortfolio(portfolioWithEntries.Item1)" Label="Add entry"></MatButton>
+                                }
+                            </div>
+                        </MatCardContent>
+                    </MatCard>
+                }
+            }
+        </div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-2"></div>
+    </div>
+</div>
+<MatFAB Class="app-fab--absolute" Icon="@MatIconNames.Add" Label="Add a new portfolio" OnClick='() => { NavigationManager.NavigateTo($"newportfolio"); }'></MatFAB>
+
+
+@code
+{
+    // list of portfolios with entries mapped to them
+    private List<Tuple<Portfolio, List<PortfolioEntry>>> _portfoliosWithEntries;
+
+    protected record PortfolioEntryRow(string symbol, decimal currentPrice, decimal relativeChange, decimal percentage);
+
+    protected override void OnInitialized()
+    {
+        LoadPortfolios();
+    }
+
+    private void LoadPortfolios()
+    {
+        _portfoliosWithEntries = PortfolioService.GetPortfolios().Select(
+            portfolio => new Tuple<Portfolio, List<PortfolioEntry>>(
+                portfolio,
+                PortfolioEntryService.GetPortfolioEntries(portfolio.Id)
+                )
+            ).ToList();
+    }
+
+    private void EditPortfolio(Portfolio activePortfolioItem1)
+    {
+        NavigationManager.NavigateTo($"/editportfolio/{activePortfolioItem1.Id}");
+    }
+
+    private async void DeletePortfolio(Portfolio portfolio)
+    {
+        // let user confirm whether he wants to delete the portfolio
+        var result = await MatDialogService.ConfirmAsync("Do you really wish to delete this portfolio including all of it's portfolio entries and market orders?");
+        if (result)
+        {
+            // delete portfolio
+            PortfolioService.DeletePortfolio(portfolio);
+            // reload the portfolio list 
+            LoadPortfolios();
+            // refresh the UI
+            StateHasChanged();
+            Toaster.Add($"Portfolio \"{portfolio.Name}\" sucessfully deleted", MatToastType.Info, "", "");
+        }
+    }
+
+    private void AddNewEntryToPortfolio(Portfolio portfolio)
+    {
+        NavigationManager.NavigateTo($"/newportfolioentry/{portfolio.Id}");
+    }
+
+    private void ViewPortfolio(Portfolio portfolio)
+    {
+        NavigationManager.NavigateTo($"/portfolios/{portfolio.Id}");
+    }
+}

@@ -1,0 +1,70 @@
+﻿@page "/newmarketorder/{entryId:int}"
+@using Services
+@using Model
+@inject IPortfolioService PortfolioService
+@inject IPortfolioEntryService PortfolioEntrySerivce
+@inject IMarketOrderService MarketOrderService
+@inject IMatDialogService MatDialogService
+@inject IMatToaster Toaster
+@inject NavigationManager NavigationManager
+
+
+<style>
+    .demo-mat-card-content {
+        padding: 1rem;
+    }
+</style>
+
+<div class="mat-layout-grid" style="background-color: #CAE4DB;">
+    <div class="mat-layout-grid-inner">
+        <div class="mat-layout-grid-cell-span-2"></div>
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-8">
+            <MatButton Outlined="true" Icon="keyboard_arrow_left" Style="margin-bottom: 1rem;background-color:white" OnClick='() => { NavigationManager.NavigateTo($"/entries/{_activeEntry.Id}"); }'>Back</MatButton>
+            <MatCard>
+                <MatCardContent class="demo-mat-card-content">
+                    <h2>Create a new market order</h2>
+                    <OrderForm Currency="@_activePortfolio.Currency" Symbol="@_activeEntry.Symbol" OnSubmitEventHandler="@OnCreateOrderFormSubmit"></OrderForm>
+                </MatCardContent>
+            </MatCard>
+        </div>
+        <div class="mat-layout-grid-cell-span-2"></div>
+    </div>
+</div>
+
+
+@code
+{
+    [Parameter]
+    public int EntryId { get; set; }
+
+    // the active portfolio
+    private Portfolio _activePortfolio = new("", "", Currency.Usd);
+    
+    // entry to which the entry will be added 
+    private PortfolioEntry _activeEntry = new("", 1);
+
+    protected override void OnInitialized()
+    {
+        // load the portfolio entry
+        _activeEntry = PortfolioEntrySerivce.GetPortfolioEntry(EntryId);
+        
+        if (_activeEntry == null)
+        {
+            NavigationManager.NavigateTo("/notfound");
+            return;
+        }
+        
+        // load the portfolio the entry belongs to
+        _activePortfolio = PortfolioService.GetPortfolio(_activeEntry.PortfolioId);
+    }
+
+    private void OnCreateOrderFormSubmit(OrderForm.OrderFormModel formFormModel)
+    {
+        // create the market order
+        MarketOrderService.CreateMarketOrder(formFormModel.FilledPrice, formFormModel.Fee, formFormModel.Size, formFormModel.OrderDate, !formFormModel.SellOrder, _activeEntry.Id);
+        // reset the form model
+        formFormModel.Reset();
+        // notify user 
+        Toaster.Add("New order successfully added", MatToastType.Success, "", "");
+    }
+}
